@@ -1,0 +1,20 @@
+<template>
+    <lightning-card title="Product Detail">
+        <template for:each={product} for:item="pro">
+            <div key={pro.Id}>
+                <div class="slds-list_horizontal">
+                    <p>Name:</p>&nbsp;&nbsp;<p><lightning-formatted-text value={pro.Name} ></lightning-formatted-text></p>
+                </div>
+                <div class="slds-list_horizontal">
+                    <p>Description:</p>&nbsp;&nbsp;<p><lightning-formatted-text value={pro.Description__c} ></lightning-formatted-text></p>
+                </div>
+                <div class="slds-list_horizontal">
+                    <p>Price:</p>&nbsp;&nbsp;<p><lightning-formatted-number value={pro.Price__c} ></lightning-formatted-number></p>
+                </div>
+                <div class="slds-list_horizontal">
+                    <p>Quantity:</p>&nbsp;&nbsp;<p><lightning-formatted-number value={pro.Quantity__c} ></lightning-formatted-number></p>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>
