@@ -35,15 +35,17 @@ export default class AkramTestProduct extends LightningElement {
     @wire(MessageContext)
     messageContext
 
+    
     @wire(getProduct,{oppId : '$recordId'})
     wiredData(results){
         this.wiredRecords = results;
-        if(results.data){
+        const {data,error} = results;
+        if(data){
             this.products = results.data;
             console.log('pro',this.products)
             this.errors = undefined;
         }
-        else if(results.error){
+        else if(error){
             this.errors = results.error;
             this.products = undefined;
         }
@@ -66,9 +68,16 @@ export default class AkramTestProduct extends LightningElement {
         // return refreshApex(this.wiredRecords);
         
     }
-    refresh(){
+    async refresh(){
+        console.log('method called')
         this.loaded = true;
-        refreshApex(this.wiredRecords);
+        return await refreshApex(this.wiredRecords)
+        .then(result=>{
+            this.loaded = false
+            // this.products = result
+            console.log('prod list',this.products)
+        })
+        console.log('wired',this.wiredRecords)
         this.loaded =false
     }
 }
