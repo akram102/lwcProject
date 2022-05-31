@@ -8,26 +8,29 @@ public with sharing class BoatDataService {
         return boatTypeList;
     }
 
-    public static void createNewBoat(){
-        
-    }
-
     @AuraEnabled(cacheable=true)
     public static List<Boat__c> getBoats(String boatTypeId ){
         String key = boatTypeId;
+        String Query = '';
         if(String.isBlank(key)){
-            String Query = 'select Id, Name, BoatType__c, Picture__c,Price__c,Year_Built__c,Length__c,Geolocation__c,Contact__c,Boat_Image__c from Boat__c';
+            Query = 'select Id, Description__c, Name, BoatType__c, Picture__c,Price__c,Year_Built__c,Length__c,Geolocation__c,Contact__c,Boat_Image__c from Boat__c';
         }
         else{
-            String Query = 'select Id, Name, BoatType__c, Picture__c,Price__c,Year_Built__c,Length__c,Geolocation__c,Contact__c,Boat_Image__c from Boat__c where BoatType__c = :key';
+            Query = 'select Id, Description__c, Name, BoatType__c, Picture__c,Price__c,Year_Built__c,Length__c,Geolocation__c,Contact__c,Boat_Image__c from Boat__c where BoatType__c = :key';
         }
         List<Boat__c> boatList = Database.query(Query);
         return boatList;
     }
-
     @AuraEnabled
-    public static void updateBoatList(Object data){
-        
+    public static Void getBoatsByLocation(String boatTypeId){
+
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static String updateBoatList(Object data){
+        List<Boat__c> boatsToUpdate = (List<Boat__c>)JSON.deserialize(JSON.serialize(data),List<Boat__c>.class);
+        update boatsToUpdate;
+        return 'Success: Boats updated successfully';
     }
 }
     

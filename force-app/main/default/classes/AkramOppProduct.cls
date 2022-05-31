@@ -11,4 +11,8 @@ public with sharing class AkramOppProduct {
         String Query = 'select Id, Name, Description__c, Opportunity__c, Price__c, Quantity__c from Opp_Product__c where Id = :productId';
         return Database.query(Query);
     }
+//     @AuraEnabled
+//     public static string createProduct(){
+        
+//     }
 }

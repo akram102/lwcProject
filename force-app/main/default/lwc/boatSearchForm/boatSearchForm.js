@@ -17,10 +17,6 @@ export default class BoatSearchForm extends LightningElement {
       console.log(data)
       this.searchOptions = data.map(type => {
         // TODO: complete the logic
-        return {
-          label: type.Name,
-          value: type.Id
-        }
       });
       this.searchOptions.unshift({ label: 'All Types', value: '' });
     } else if (error) {
@@ -34,10 +30,7 @@ export default class BoatSearchForm extends LightningElement {
   handleSearchOptionChange(event) {
     // Create the const searchEvent
     // searchEvent must be the new custom event search
-    const searchEvent = new CustomEvent('selected',{
-      detail : { 
-        boatTypeId : this.selectedBoatTypeId}
-    });
+    searchEvent;
     this.dispatchEvent(searchEvent);
   }
 }

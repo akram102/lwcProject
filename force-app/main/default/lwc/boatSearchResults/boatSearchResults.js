@@ -15,7 +15,12 @@ const ERROR_TITLE   = 'Error';
 const ERROR_VARIANT = 'error';
 export default class BoatSearchResults extends LightningElement {
   selectedBoatId;
-  columns = [];
+  columns = [
+        {label : 'Name', fieldName : 'Name', editable : true },
+        {label : 'Length', fieldName : 'Length__c', editable : true},
+        {label : 'Price', fieldName : 'Price__c', editable : true},
+        {label : 'Description', fieldName : 'Description__c', editable : true},
+  ];
   boatTypeId = '';
   boats;
   @track
