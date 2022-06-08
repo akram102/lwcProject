@@ -4,10 +4,10 @@
       <lightning-layout-item size="12">
         <lightning-card title="Find a Boat">
           <!-- New Boat button goes here -->
-          <lightning-button label="Neutral" title="Non-primary action" onclick={createNewBoat} slot="actions"></lightning-button>
+          <lightning-button label="New Boat" title="Non-primary action" onclick={createNewBoat} slot="actions"></lightning-button>
           <p class="slds-var-p-horizontal_small">
             <!-- boatSearchForm component goes here -->
-            <c-boat-search-form onselected={searchBoats}></c-boat-search-form>
+            <c-boat-search-form onsearch={searchBoats}></c-boat-search-form>
           </p>
         </lightning-card>
       </lightning-layout-item>
@@ -18,7 +18,7 @@
           <lightning-spinner variant="brand" alternative-text="Loading" size="small"></lightning-spinner>
         </template>
         <!-- boatSearchResults goes here -->
-        <c-boat-search-results></c-boat-search-results>
+        <c-boat-search-results onloading={handleLoading} ondoneloading={handleDoneLoading}></c-boat-search-results>
         <!-- onloading={handleLoading} ondoneloading={handleDoneLoading} -->
       </lightning-layout-item>
     </lightning-layout>

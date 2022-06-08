@@ -5,6 +5,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import BOATMC  from '@salesforce/messageChannel/BoatMessageChannel__c';
 
 import getBoats from '@salesforce/apex/BoatDataService.getBoats';
+import updateBoatList from '@salesforce/apex/BoatDataService.updateBoatList';
 
 
 // ...
@@ -92,11 +93,11 @@ export default class BoatSearchResults extends LightningElement {
     // notify loading
     const updatedFields = event.detail.draftValues;
     // Update the records via Apex
-    updateBoatList({data: updatedFields})
+    const results = updateBoatList({data: updatedFields})
     .then((result) => {
         const toast = new ShowToastEvent({
             title : SUCCESS_TITLE,
-            Message : MESSAGE_SHIP_IT,
+            message : MESSAGE_SHIP_IT,
             variant : SUCCESS_VARIANT
         })
         this.dispatchEvent(toast);
@@ -106,7 +107,7 @@ export default class BoatSearchResults extends LightningElement {
     .catch(error => {
         const toast = new ShowToastEvent({
             title : ERROR_TITLE,
-            Message : error,
+            message : error.body.message,
             variant : ERROR_VARIANT
         })
         this.dispatchEvent(toast);

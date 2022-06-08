@@ -1,0 +1,8 @@
+<template>
+    <template if:true={accountList}>
+        <lightning-card title="Show Account Opportunity Table">
+            <lightning-datatable key-field="Id" data={accountList} columns={columns}>
+            </lightning-datatable>
+        </lightning-card>
+    </template>
+</template>
