@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="Create New Flight">
+        <lightning-record-edit-form object-api-name="Flight__c" onsuccess={handleSuccess} onsubmit={handleSubmit} onerror={handleError}>
+            <lightning-combobox value={selectedDepartureFlight} field-name="Departure__c" label="Departure"
+                options={options} onchange={handleDepartureFlightChange} required></lightning-combobox>
+            <lightning-combobox value={selectedArrivalFlight} field-name="Arrival__c" label="Arrival" options={options}
+                onchange={handleArrivaleFlightChange} required></lightning-combobox>
+            <lightning-button variant="brand" type="submit" name="save" label="New Flight"></lightning-button>
+        </lightning-record-edit-form>
+    </lightning-card>
+</template>
