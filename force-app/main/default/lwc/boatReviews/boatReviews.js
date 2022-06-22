@@ -22,7 +22,9 @@ export default class BoatReviews extends LightningElement {
     }
     
     // Getter to determine if there are reviews to display
-    get reviewsToShow() { }
+    get reviewsToShow() { 
+      return this.boatReviews !== undefined && this.boatReviews !== null && this.boatReviews.length > 0;
+    }
     
     // Public method to force a refresh of the reviews invoking getReviews
     refresh() { }
