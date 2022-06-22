@@ -37,5 +37,11 @@ public with sharing class BoatDataService {
             return 'The following exception has occurred: ' + e.getMessage();
         }
     }
+
+    @AuraEnabled
+    public static List<BoatReview__c> getAllReviews(Id boatId){
+       String queryString = 'select id, Name, Comment__c, Rating__c, Boat__c from BoatReview__c where Boat__c =:boatId';
+       return Database.query(queryString);
+    }
 }
     

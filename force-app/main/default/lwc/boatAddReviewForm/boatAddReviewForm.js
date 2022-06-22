@@ -1,5 +1,5 @@
 import { api, LightningElement } from 'lwc';
-import {ShowToastEvent} from '@salesforce/platformShowToastEvent';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
 // imports
@@ -35,12 +35,20 @@ export default class BoatAddReviewForm extends LightningElement {
     }
     
     // Gets user rating input from stars component
-    handleRatingChanged(event) { }
+    handleRatingChanged(event) { 
+      this.rating = event.detail.rating;
+    }
     
     // Custom submission handler to properly set Rating
     // This function must prevent the anchor element from navigating to a URL.
     // form to be submitted: lightning-record-edit-form
-    handleSubmit(event) { }
+    handleSubmit(event) { 
+      event.event.preventDefault();
+      const fields = event.detail.fields;
+      fields.rating__c = this.rating;
+      fields.boat__c = this.boatId;
+      this.template.querySelector('lightning-record-edit-form').submit(fields);
+    }
     
     // Shows a toast message once form is submitted successfully
     // Dispatches event when a review is created
@@ -52,10 +60,19 @@ export default class BoatAddReviewForm extends LightningElement {
       });
       this.dispatchEvent(toast);
       this.handleReset();
+      const createReviewEvent = new CustomEvent('createreview');
+        this.dispatchEvent(createReviewEvent); 
     }
     
     // Clears form data upon submission
     // TODO: it must reset each lightning-input-field
-    handleReset() { }
+    handleReset() { 
+      const inputFields = this.template.querySelectorAll('lightning-input-field');
+      if(inputFields){
+        inputFields.forEach((field)=>{
+          field.reset()
+        })
+      }
+    }
   }
   

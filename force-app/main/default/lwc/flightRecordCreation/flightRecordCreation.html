@@ -1,11 +1,26 @@
 <template>
-    <lightning-card title="Create New Flight">
-        <lightning-record-edit-form object-api-name="Flight__c" onsuccess={handleSuccess} onsubmit={handleSubmit} onerror={handleError}>
-            <lightning-combobox value={selectedDepartureFlight} field-name="Departure__c" label="Departure"
-                options={options} onchange={handleDepartureFlightChange} required></lightning-combobox>
-            <lightning-combobox value={selectedArrivalFlight} field-name="Arrival__c" label="Arrival" options={options}
-                onchange={handleArrivaleFlightChange} required></lightning-combobox>
-            <lightning-button variant="brand" type="submit" name="save" label="New Flight"></lightning-button>
-        </lightning-record-edit-form>
-    </lightning-card>
+    <template if:true={showForms}>
+        <lightning-card title="Create New Flight">
+            <lightning-record-edit-form object-api-name="Flight__c" onsuccess={handleSuccess} onsubmit={handleSubmit}
+                onerror={handleError}>
+                <lightning-combobox value={selectedDepartureFlight} label="Departure" options={options}
+                    onchange={handleDepartureFlightChange} required></lightning-combobox>
+                <lightning-combobox value={selectedArrivalFlight} label="Arrival" options={options}
+                    onchange={handleArrivaleFlightChange} required></lightning-combobox>
+                <lightning-button variant="brand" type="submit" name="save" label="New Flight"></lightning-button>
+            </lightning-record-edit-form>
+        </lightning-card>
+    </template>
+    <template if:true={newRecordCreated}>
+        <template if:false={showForms}>
+            <lightning-card title="Flight Details">
+                <lightning-record-view-form object-api-name="Flight__c" record-id={newRecordCreated}>
+                    <lightning-output-field field-name="Name"> </lightning-output-field>
+                    <lightning-output-field field-name="Departure__c"> </lightning-output-field>
+                    <lightning-output-field field-name="Arrival__c"> </lightning-output-field>
+                    <lightning-output-field field-name="Distance__c"> </lightning-output-field>
+                </lightning-record-view-form>
+            </lightning-card>
+        </template>
+    </template>
 </template>

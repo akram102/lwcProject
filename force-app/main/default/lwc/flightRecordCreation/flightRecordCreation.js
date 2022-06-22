@@ -21,6 +21,8 @@ export default class FlightRecordCreation extends NavigationMixin(LightningEleme
     departureLongitude
     arrivalLatitude
     arrivalLongitude
+    newRecordCreated
+    showForms = true;
 
 
     @wire(getAirports)
@@ -65,15 +67,8 @@ export default class FlightRecordCreation extends NavigationMixin(LightningEleme
         })
     }
     handleSuccess(event){
-        let newRecordCreated = event.detail.id;
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: newRecordCreated,
-                objectApiName: FLIGHT_OBJECT,
-                actionName: 'view'
-            }
-        });
+        this.newRecordCreated = event.detail.id;
+        this.showForms = false;
     }
     async handleSubmit(event){
         await calculateDistance({latitude1 : this.departureLatitude, longitude1:this.departureLongitude, latitude2 : this.arrivalLatitude,longitude2 : this.arrivalLongitude})
