@@ -1,10 +1,10 @@
 //import fivestar static resource, call it fivestar
 import fivestar from '@salesforce/resourceUrl/fivestar';
-import {loadScript,loadStyle} from 'lightning/platformResourceLoader';
+import { LightningElement , api} from 'lwc';
+import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
-import { api } from "lwc";
 
 // add constants here
 const ERROR_TITLE  = 'Error loading five-star';
@@ -25,7 +25,7 @@ export default class FiveStarRating extends LightningElement {
   //getter function that returns the correct class depending on if it is readonly
 
   get starClass() {
-    this.readOnly ? READ_ONLY_CLASS : EDITABLE_CLASS;
+    return this.readOnly ? READ_ONLY_CLASS : EDITABLE_CLASS;
   }
 
   // Render callback to load the script once the component renders.
@@ -43,7 +43,7 @@ export default class FiveStarRating extends LightningElement {
   loadScript() {
     Promise.all([
       loadScript(this, fivestar + '/rating.js'),
-      loadStyle(this,fivestar + '/rating.css')
+      loadStyle(this, fivestar + '/rating.css')
     ]).then(()=>{
       this.initializeRating()
     }).catch((error)=>{

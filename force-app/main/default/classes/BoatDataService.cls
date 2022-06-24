@@ -40,7 +40,7 @@ public with sharing class BoatDataService {
 
     @AuraEnabled
     public static List<BoatReview__c> getAllReviews(Id boatId){
-       String queryString = 'select id, Name, Comment__c, Rating__c, Boat__c from BoatReview__c where Boat__c =:boatId';
+       String queryString = 'select id, Name, Comment__c, Rating__c, Boat__c, CreatedBy.SmallBannerPhotoUrl, CreatedBy.Name, CreatedBy.CompanyName, CreatedDate,  from BoatReview__c where Boat__c =:boatId WITH SECURITY_ENFORCED';
        return Database.query(queryString);
     }
 }

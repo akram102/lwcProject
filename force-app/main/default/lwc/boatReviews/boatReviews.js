@@ -1,9 +1,10 @@
-import { LightningElement } from 'lwc';
+import { api, LightningElement } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 
 
 // imports
 import getAllReviews from '@salesforce/apex/BoatDataService.getAllReviews';
-export default class BoatReviews extends LightningElement {
+export default class BoatReviews extends NavigationMixin(LightningElement ){
     // Private
     boatId;
     error;
@@ -11,7 +12,10 @@ export default class BoatReviews extends LightningElement {
     isLoading;
     
     // Getter and Setter to allow for logic to run on recordId change
-    get recordId() { }
+    @api
+    get recordId() { 
+      return this.boatId;
+    }
     set recordId(value) {
       //sets boatId attribute
       this.setAttribute('boatId',this.boatId);
@@ -27,6 +31,7 @@ export default class BoatReviews extends LightningElement {
     }
     
     // Public method to force a refresh of the reviews invoking getReviews
+    @api
     refresh() { }
     
     // Imperative Apex call to get reviews for given boat
@@ -40,6 +45,7 @@ export default class BoatReviews extends LightningElement {
         getAllReviews({boatId : this.boatId})
         .then((result)=>{
           this.boatReviews = result
+          console.log('boat--c',this.boatReviews)
           this.error = undefined
         }).catch((error)=>{
           this.error = error
@@ -52,6 +58,8 @@ export default class BoatReviews extends LightningElement {
     }
     
     // Helper method to use NavigationMixin to navigate to a given record on click
-    navigateToRecord(event) {  }
+    navigateToRecord(event) {  
+
+    }
   }
   

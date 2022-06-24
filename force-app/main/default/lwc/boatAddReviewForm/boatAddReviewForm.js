@@ -43,10 +43,11 @@ export default class BoatAddReviewForm extends LightningElement {
     // This function must prevent the anchor element from navigating to a URL.
     // form to be submitted: lightning-record-edit-form
     handleSubmit(event) { 
-      event.event.preventDefault();
+      event.preventDefault();
       const fields = event.detail.fields;
       fields.rating__c = this.rating;
       fields.boat__c = this.boatId;
+      console.log('fiedl--->',this.rating);
       this.template.querySelector('lightning-record-edit-form').submit(fields);
     }
     
