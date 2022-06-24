@@ -25,11 +25,11 @@ export default class BoatAddReviewForm extends LightningElement {
     // Public Getter and Setter to allow for logic to run on recordId change
     @api
     get recordId() { 
-        return this.boatId
+        return this.boatId;
     }
     set recordId(value) {
       //sets boatId attribute
-      this.setAttribute('boatId',this.boatId)
+      this.setAttribute('boatId',value)
       //sets boatId assignment
       this.boatId = value;
     }
@@ -45,8 +45,9 @@ export default class BoatAddReviewForm extends LightningElement {
     handleSubmit(event) { 
       event.preventDefault();
       const fields = event.detail.fields;
-      fields.rating__c = this.rating;
-      fields.boat__c = this.boatId;
+      fields.Rating__c = this.rating;
+      fields.Boat__c = this.boatId;
+      console.log('boatId--<<',this.boatId)
       console.log('fiedl--->',this.rating);
       this.template.querySelector('lightning-record-edit-form').submit(fields);
     }

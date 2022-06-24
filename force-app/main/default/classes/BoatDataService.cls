@@ -38,9 +38,9 @@ public with sharing class BoatDataService {
         }
     }
 
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static List<BoatReview__c> getAllReviews(Id boatId){
-       String queryString = 'select id, Name, Comment__c, Rating__c, Boat__c, CreatedBy.SmallBannerPhotoUrl, CreatedBy.Name, CreatedBy.CompanyName, CreatedDate,  from BoatReview__c where Boat__c =:boatId WITH SECURITY_ENFORCED';
+       String queryString = 'select id, Name, Comment__c, Rating__c, Boat__c, CreatedBy.SmallPhotoUrl, CreatedBy.Name, CreatedBy.CompanyName, CreatedDate from BoatReview__c where Boat__c =:boatId';
        return Database.query(queryString);
     }
 }

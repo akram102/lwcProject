@@ -5,7 +5,7 @@
   </template>
   <!-- div for when there are reviews available -->
   <template if:true={reviewsToShow}>
-    <div>
+    <div class= "slds-feed reviews-style slds-is-relative slds-scrollable_y">
       <!-- insert spinner -->
       <template if:true={isLoading}>
         <lightning-spinner alternative-text="Loading" size="small" variant="brand"></lightning-spinner>
@@ -18,7 +18,7 @@
               <header class="slds-post__header slds-media">
                 <div class="slds-media__figure">
                   <!-- display the creator’s picture -->
-                  <lightning-avatar src={boatReview.CreatedBy.SmallBannerPhotoUrl} variant="circle"></lightning-avatar>
+                  <lightning-avatar src={boatReview.CreatedBy.SmallPhotoUrl} variant="circle"></lightning-avatar>
                 </div>
                 <div class="slds-media__body">
                   <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
@@ -33,6 +33,7 @@
                   </div>
                   <p class="slds-text-body_small">
                     <!-- display created  date -->
+                    <lightning-formatted-date-time value={boatReview.CreatedDate}></lightning-formatted-date-time>
                   </p>
                 </div>
               </header>

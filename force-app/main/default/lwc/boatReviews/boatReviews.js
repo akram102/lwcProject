@@ -12,17 +12,18 @@ export default class BoatReviews extends NavigationMixin(LightningElement ){
     isLoading;
     
     // Getter and Setter to allow for logic to run on recordId change
-    @api
     get recordId() { 
+      console.log('method is here$$$$$')
       return this.boatId;
     }
+    @api
     set recordId(value) {
       //sets boatId attribute
-      this.setAttribute('boatId',this.boatId);
+      this.setAttribute('boatId',value);
       //sets boatId assignment
       this.boatId = value;
       //get reviews associated with boatId
-      getReviews()
+      this.getReviews()
     }
     
     // Getter to determine if there are reviews to display
@@ -32,13 +33,16 @@ export default class BoatReviews extends NavigationMixin(LightningElement ){
     
     // Public method to force a refresh of the reviews invoking getReviews
     @api
-    refresh() { }
+    refresh() { 
+      this.getReviews();
+    }
     
     // Imperative Apex call to get reviews for given boat
     // returns immediately if boatId is empty or null
     // sets isLoading to true during the process and false when it’s completed
     // Gets all the boatReviews from the result, checking for errors.
     getReviews() { 
+      console.log('method called')
       if(this.boatId){
         this.isLoading = true
       
@@ -49,6 +53,7 @@ export default class BoatReviews extends NavigationMixin(LightningElement ){
           this.error = undefined
         }).catch((error)=>{
           this.error = error
+          console.log('boat--c error',error)
         }).finally(()=>[
           this.isLoading = false
         ])
