@@ -66,10 +66,12 @@ export default class BoatMap extends LightningElement {
     if (this.subscription || this.recordId) {
       return;
     }
-      this.subscription = subscribe(this.messageContext,
-        BOATMC,
-        (message) => this.handleMessage(message),
-        {scope : APPLICATION_SCOPE});
+    this.subscription = subscribe(
+      this.messageContext,
+      BOATMC,
+      (message) => { this.boatId = message.recordId },
+      { scope: APPLICATION_SCOPE }
+    );
     // Subscribe to the message channel to retrieve the recordId and explicitly assign it to boatId.
   }
 
@@ -87,10 +89,6 @@ export default class BoatMap extends LightningElement {
     this.unsubscribeMC();
   }
 
-  handleMessage(message){
-    this.boatId = message.recordId;
-    console.log('boat map boatId',this.boatId);
-  }
 
   // Creates the map markers array with the current boat's location for the map.
   updateMap(Longitude, Latitude) {

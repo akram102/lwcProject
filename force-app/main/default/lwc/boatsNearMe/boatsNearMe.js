@@ -13,7 +13,7 @@ export default class BoatsNearMe extends LightningElement {
   boatTypeId;
   mapMarkers = [];
   isLoading = true;
-  isRendered;
+  isRendered= false;
   latitude;
   longitude;
   
@@ -41,25 +41,22 @@ export default class BoatsNearMe extends LightningElement {
   
   // Controls the isRendered property
   // Calls getLocationFromBrowser()
-  renderedCallback() { 
-      if(!this.isRendered){
-          this.getLocationFromBrowser();
-      }
-      this.isRendered = true;
-  }
+  renderedCallback() {
+    if (!this.isRendered) {
+        this.getLocationFromBrowser();
+    }
+    this.isRendered = true;
+}
   
   // Gets the location from the Browser
   // position => {latitude and longitude}
   getLocationFromBrowser() { 
     // const myLocationService = getLocationService();
-    if(navigator.geolocation){
+    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             this.latitude = position.coords.latitude;
             this.longitude = position.coords.longitude;
-            console.log('latitude--->',latitude)
-        },(error) =>{
-            console.log('error here--->',error)
-        })
+        });
     }
   }
   
@@ -67,25 +64,25 @@ export default class BoatsNearMe extends LightningElement {
   createMapMarkers(boatData) {
       console.log('boatData',boatData)
      // const newMarkers = boatData.map(boat => {...});
-     const newMarkers = JSON.parse(boatData).map(boat=>{
-         return {
-             title : boat.Name,
-             location : {
-                 Latitude : boat.Geolocation__Latitude__s,
-                 Longitude : boat.Geolocation__Longitude__s
-             }
-         }
-     })
+     const newMarkers = JSON.parse(boatData).map(boat => {
+        return {
+            title: boat.Name,
+            location: {
+                Latitude: boat.Geolocation__Latitude__s,
+                Longitude: boat.Geolocation__Longitude__s
+            }
+        };
+    });
      // newMarkers.unshift({...});
      newMarkers.unshift({
-         title : LABEL_YOU_ARE_HERE,
-         icon : ICON_STANDARD_USER,
          location : {
              Latitude : this.latitude,
              Longitude : this.longitude
-         }
+            },
+            title : LABEL_YOU_ARE_HERE,
+            icon : ICON_STANDARD_USER
      })
      this.mapMarkers = newMarkers
-     console.log('mapMarker---->',this.mapMarkers)
+    //  this.isLoading = false;
    }
 }

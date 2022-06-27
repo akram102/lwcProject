@@ -1,5 +1,9 @@
 public with sharing class BoatDataService {
 
+    public static final String LENGTH_SELECTED = 'Length';
+    public static final String TYPE_SELECTED = 'Type';
+    public static final String PRICE_SELECTED = 'Price';
+
     @AuraEnabled(cacheable=true)
     public static List<BoatType__c> getBoatTypes(){
         String Query = 'select Id, Name from BoatType__c';
@@ -38,10 +42,41 @@ public with sharing class BoatDataService {
         }
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static List<BoatReview__c> getAllReviews(Id boatId){
-       String queryString = 'select id, Name, Comment__c, Rating__c, Boat__c, CreatedBy.SmallPhotoUrl, CreatedBy.Name, CreatedBy.CompanyName, CreatedDate from BoatReview__c where Boat__c =:boatId';
+       String queryString = 'select id, Name, Comment__c, Rating__c, Boat__c, CreatedBy.SmallPhotoUrl, CreatedBy.Name, CreatedBy.CompanyName, CreatedDate from BoatReview__c where Boat__c =:boatId ORDER BY CreatedDate DESC';
        return Database.query(queryString);
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Boat__c> getSimilarBoats(Id boatId, String similarBy){
+        List<Boat__c> queryResult = new List<Boat__c>();
+        List<Boat__c> selectedBoat = [SELECT Id, Name, BoatType__c, Length__c, Picture__c, Price__c, Year_Built__c FROM Boat__c WHERE Id = :boatId];
+        String queryString = '';
+        if(similarBy == LENGTH_SELECTED){
+            queryResult = [SELECT  Id, Contact__r.Name, Name, BoatType__c, BoatType__r.Name, Length__c, Picture__c, Price__c, Year_Built__c
+             FROM   Boat__c 
+             WHERE  Id != :selectedBoat.get(0).Id 
+             AND   (Length__c >= :selectedBoat.get(0).Length__c / 1.2)
+             AND   (Length__c <= :selectedBoat.get(0).Length__c * 1.2)
+             ORDER BY Length__c, Price__c, Year_Built__c];
+        }
+        else if(similarBy == PRICE_SELECTED){
+            queryResult = [SELECT  Id, Contact__r.Name, Name, BoatType__c, BoatType__r.Name, Length__c, Picture__c, Price__c, Year_Built__c 
+             FROM   Boat__c 
+             WHERE  Id != :selectedBoat.get(0).Id 
+             AND   (Price__c >= :selectedBoat.get(0).Price__c / 1.2)
+             AND   (Price__c <= :selectedBoat.get(0).Price__c * 1.2)
+             ORDER BY Length__c, Price__c, Year_Built__c];
+        }
+        else if(similarBy == TYPE_SELECTED){
+            queryResult = [SELECT  Id, Contact__r.Name, Name, BoatType__c, BoatType__r.Name, Length__c, Picture__c, Price__c, Year_Built__c 
+             FROM   Boat__c 
+             WHERE  Id != :selectedBoat.get(0).Id 
+             AND   (BoatType__c =: selectedBoat.get(0).BoatType__c)
+             ORDER BY Length__c, Price__c, Year_Built__c];
+        }
+        return queryResult;
     }
 }
     

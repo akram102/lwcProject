@@ -24,7 +24,8 @@
                   <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
                     <p>
                       <!-- display creator’s name -->
-                      {boatReview.CreatedBy.Name}
+                      <a onclick={navigateToRecord} data-record-id={boatReview.CreatedBy.Id} title={boatReview.CreatedBy.Name}>{boatReview.CreatedBy.Name}</a>
+                       - 
                       <span>
                         <!-- display creator’s company name -->
                         {boatReview.CreatedBy.CompanyName}
@@ -40,10 +41,13 @@
               <div class="slds-text-longform">
                 <p class="slds-text-title_caps">
                   <!-- display Name -->
+                  {boatReview.Name}
                 </p>
                 <!-- display Comment__c -->
+              <lightning-formatted-rich-text value={boatReview.Comment__c}></lightning-formatted-rich-text>
               </div>
               <!-- display five star rating on readonly mode -->
+              <c-five-star-rating read-only=true value={boatReview.Rating__c}></c-five-star-rating>
             </article>
           </li>
         </template>
